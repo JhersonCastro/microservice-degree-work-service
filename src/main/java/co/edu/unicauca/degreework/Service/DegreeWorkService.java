@@ -40,6 +40,7 @@ public class DegreeWorkService {
         degreeWork.setTitle(dto.getTitle());
         degreeWork.setDescription(dto.getDescription());
         degreeWork.setIdDirector(dto.getIdDirector());
+        degreeWork.setIdCoordinator(dto.getIdCoordinator());  // ← NUEVO
         degreeWork.setStudentIds(dto.getStudentIds());
         degreeWork.setModality(dto.getModality());
 
@@ -55,12 +56,10 @@ public class DegreeWorkService {
             return;
         }
 
-        // Buscar trabajos de grado activos (todos excepto INACTIVE)
         List<DegreeWork> activeDegreeWorks = degreeWorkRepository
                 .findByStudentIdsAndStatusNot(new ArrayList<>(studentIds), Status.INACTIVE);
 
         if (!activeDegreeWorks.isEmpty()) {
-            // Encontrar qué estudiante(s) tienen trabajo de grado activo
             for (DegreeWork dw : activeDegreeWorks) {
                 for (Long studentId : studentIds) {
                     if (dw.getStudentIds().contains(studentId)) {
@@ -80,7 +79,6 @@ public class DegreeWorkService {
         DegreeWork degreeWork = degreeWorkRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("DegreeWork no encontrado con id: " + id));
 
-        // Reconstruir el estado desde la base de datos
         DegreeWorkState state = stateFactory.createState(degreeWork);
         degreeWork.setState(state);
 

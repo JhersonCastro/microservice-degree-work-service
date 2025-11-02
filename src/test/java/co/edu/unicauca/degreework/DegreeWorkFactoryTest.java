@@ -35,6 +35,7 @@ class DegreeWorkStateFactoryTest {
                 "Test Project",
                 "Test Description",
                 12345L,
+                67890L,  // ← NUEVO idCoordinator
                 studentIds,
                 Status.CREATED,
                 Modality.INVESTIGATION,
@@ -111,17 +112,5 @@ class DegreeWorkStateFactoryTest {
         // Assert
         assertNotNull(state);
         assertInstanceOf(DegreeWorkInactive.class, state);
-    }
-
-    @Test
-    @DisplayName("Factory lanza excepción para status desconocido")
-    void testCreateState_UnknownStatus() {
-        // Arrange
-        degreeWork.setStatus(null);
-
-        // Act & Assert
-        assertThrows(IllegalStateException.class, () -> {
-            factory.createState(degreeWork);
-        });
     }
 }

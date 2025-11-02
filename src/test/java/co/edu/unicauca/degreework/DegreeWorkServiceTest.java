@@ -46,13 +46,13 @@ class DegreeWorkServiceTest {
 
     @BeforeEach
     void setUp() {
-        // Preparar datos de prueba
         Set<Long> studentIds = new HashSet<>(Arrays.asList(1001L, 1002L));
 
         validDTO = new CreateDegreeWorkDTO(
                 "Sistema de gestión de proyectos",
                 "Plataforma web para gestionar trabajos de grado",
                 12345L,
+                67890L,  // ← NUEVO idCoordinator
                 studentIds,
                 Modality.INVESTIGATION
         );
@@ -62,6 +62,7 @@ class DegreeWorkServiceTest {
                 "Sistema de gestión de proyectos",
                 "Plataforma web para gestionar trabajos de grado",
                 12345L,
+                67890L,  // ← NUEVO idCoordinator
                 studentIds,
                 Status.CREATED,
                 Modality.INVESTIGATION,
@@ -103,6 +104,7 @@ class DegreeWorkServiceTest {
                 "Trabajo existente",
                 "Descripción",
                 12345L,
+                67890L,
                 new HashSet<>(Collections.singletonList(1001L)),
                 Status.FORMAT_A,
                 Modality.INVESTIGATION,
@@ -136,6 +138,7 @@ class DegreeWorkServiceTest {
                 "Trabajo inactivo",
                 "Descripción",
                 12345L,
+                67890L,
                 new HashSet<>(Collections.singletonList(1001L)),
                 Status.INACTIVE,
                 Modality.INVESTIGATION,
@@ -217,6 +220,7 @@ class DegreeWorkServiceTest {
                 mockDegreeWork.getTitle(),
                 mockDegreeWork.getDescription(),
                 mockDegreeWork.getIdDirector(),
+                mockDegreeWork.getIdCoordinator(),
                 mockDegreeWork.getStudentIds(),
                 Status.FORMAT_A,
                 mockDegreeWork.getModality(),
@@ -256,6 +260,7 @@ class DegreeWorkServiceTest {
                 mockDegreeWork.getTitle(),
                 mockDegreeWork.getDescription(),
                 mockDegreeWork.getIdDirector(),
+                mockDegreeWork.getIdCoordinator(),
                 mockDegreeWork.getStudentIds(),
                 Status.INACTIVE,
                 mockDegreeWork.getModality(),
@@ -295,6 +300,7 @@ class DegreeWorkServiceTest {
                 mockDegreeWork.getTitle(),
                 mockDegreeWork.getDescription(),
                 mockDegreeWork.getIdDirector(),
+                mockDegreeWork.getIdCoordinator(),
                 mockDegreeWork.getStudentIds(),
                 Status.FORMAT_A_ACCEPTED,
                 mockDegreeWork.getModality(),
@@ -324,6 +330,7 @@ class DegreeWorkServiceTest {
                 "Proyecto sin estudiantes",
                 "Descripción",
                 12345L,
+                67890L,
                 new HashSet<>(),
                 Modality.INVESTIGATION
         );
@@ -333,6 +340,7 @@ class DegreeWorkServiceTest {
                 dtoWithoutStudents.getTitle(),
                 dtoWithoutStudents.getDescription(),
                 dtoWithoutStudents.getIdDirector(),
+                dtoWithoutStudents.getIdCoordinator(),
                 new HashSet<>(),
                 Status.CREATED,
                 Modality.INVESTIGATION,

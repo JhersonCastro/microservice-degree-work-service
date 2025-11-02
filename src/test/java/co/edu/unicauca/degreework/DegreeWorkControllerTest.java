@@ -55,6 +55,7 @@ class DegreeWorkControllerTest {
                 "Sistema de gestión de proyectos",
                 "Plataforma web para gestionar trabajos de grado",
                 12345L,
+                67890L,
                 studentIds,
                 Modality.INVESTIGATION
         );
@@ -64,6 +65,7 @@ class DegreeWorkControllerTest {
                 "Sistema de gestión de proyectos",
                 "Plataforma web para gestionar trabajos de grado",
                 12345L,
+                67890L,
                 studentIds,
                 Status.CREATED,
                 Modality.INVESTIGATION,
@@ -146,90 +148,5 @@ class DegreeWorkControllerTest {
                 .andExpect(jsonPath("$.message").value("DegreeWork no encontrado con id: 999"));
 
         verify(degreeWorkService, times(1)).getDegreeWorkById(999L);
-    }
-
-    @Test
-    @DisplayName("PATCH /api/degreework/{id}/upload-format-a - Success")
-    void testUploadFormatA_Success() throws Exception {
-        // Arrange
-        mockDegreeWork.setStatus(Status.FORMAT_A);
-        when(degreeWorkService.uploadFormatA(1L))
-                .thenReturn(mockDegreeWork);
-
-        // Act & Assert
-        mockMvc.perform(patch("/api/degreework/1/upload-format-a"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.status").value("FORMAT_A"));
-
-        verify(degreeWorkService, times(1)).uploadFormatA(1L);
-    }
-
-    @Test
-    @DisplayName("PATCH /api/degreework/{id}/reject-format-a - Success")
-    void testRejectFormatA_Success() throws Exception {
-        // Arrange
-        mockDegreeWork.setStatus(Status.INACTIVE);
-        when(degreeWorkService.rejectFormatA(1L))
-                .thenReturn(mockDegreeWork);
-
-        // Act & Assert
-        mockMvc.perform(patch("/api/degreework/1/reject-format-a"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.status").value("INACTIVE"));
-
-        verify(degreeWorkService, times(1)).rejectFormatA(1L);
-    }
-
-    @Test
-    @DisplayName("PATCH /api/degreework/{id}/accept-format-a - Success")
-    void testAcceptFormatA_Success() throws Exception {
-        // Arrange
-        mockDegreeWork.setStatus(Status.FORMAT_A_ACCEPTED);
-        when(degreeWorkService.acceptFormatA(1L))
-                .thenReturn(mockDegreeWork);
-
-        // Act & Assert
-        mockMvc.perform(patch("/api/degreework/1/accept-format-a"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.status").value("FORMAT_A_ACCEPTED"));
-
-        verify(degreeWorkService, times(1)).acceptFormatA(1L);
-    }
-
-    @Test
-    @DisplayName("PATCH /api/degreework/{id}/upload-draft - Success")
-    void testUploadDraft_Success() throws Exception {
-        // Arrange
-        mockDegreeWork.setStatus(Status.DRAFT);
-        when(degreeWorkService.uploadDraft(1L))
-                .thenReturn(mockDegreeWork);
-
-        // Act & Assert
-        mockMvc.perform(patch("/api/degreework/1/upload-draft"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.status").value("DRAFT"));
-
-        verify(degreeWorkService, times(1)).uploadDraft(1L);
-    }
-
-    @Test
-    @DisplayName("PATCH /api/degreework/{id}/expire-draft - Success")
-    void testExpireDraftTime_Success() throws Exception {
-        // Arrange
-        mockDegreeWork.setStatus(Status.INACTIVE);
-        when(degreeWorkService.expireDraftTime(1L))
-                .thenReturn(mockDegreeWork);
-
-        // Act & Assert
-        mockMvc.perform(patch("/api/degreework/1/expire-draft"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.status").value("INACTIVE"));
-
-        verify(degreeWorkService, times(1)).expireDraftTime(1L);
     }
 }

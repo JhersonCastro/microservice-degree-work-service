@@ -8,6 +8,7 @@ public class CreateDegreeWorkDTO {
     private String title;
     private String description;
     private Long idDirector;
+    private Long idCoordinator;  // ← NUEVO
     private Set<Long> studentIds;
     private Modality modality;
 
@@ -16,10 +17,11 @@ public class CreateDegreeWorkDTO {
     }
 
     public CreateDegreeWorkDTO(String title, String description, Long idDirector,
-                               Set<Long> studentIds, Modality modality) {
+                               Long idCoordinator, Set<Long> studentIds, Modality modality) {
         this.title = title;
         this.description = description;
         this.idDirector = idDirector;
+        this.idCoordinator = idCoordinator;  // ← NUEVO
         this.studentIds = studentIds;
         this.modality = modality;
     }
@@ -47,6 +49,14 @@ public class CreateDegreeWorkDTO {
 
     public void setIdDirector(Long idDirector) {
         this.idDirector = idDirector;
+    }
+
+    public Long getIdCoordinator() {  // ← NUEVO
+        return idCoordinator;
+    }
+
+    public void setIdCoordinator(Long idCoordinator) {  // ← NUEVO
+        this.idCoordinator = idCoordinator;
     }
 
     public Set<Long> getStudentIds() {

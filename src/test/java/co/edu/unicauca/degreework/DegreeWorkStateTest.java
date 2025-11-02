@@ -32,6 +32,7 @@ class DegreeWorkStateTest {
                 "Test Project",
                 "Test Description",
                 12345L,
+                67890L,  // ← NUEVO idCoordinator
                 studentIds,
                 Status.CREATED,
                 Modality.INVESTIGATION,

@@ -21,7 +21,12 @@ public class DegreeWork {
 
     private String title;
     private String description;
+
+    @Column(name = "id_director")
     private Long idDirector;
+
+    @Column(name = "id_coordinator")  // ← NUEVO
+    private Long idCoordinator;
 
     @ElementCollection
     @CollectionTable(
@@ -53,12 +58,13 @@ public class DegreeWork {
     }
 
     public DegreeWork(Long id, String title, String description, Long idDirector,
-                      Set<Long> studentIds, Status status, Modality modality,
-                      LocalDateTime createdAt, Process process) {
+                      Long idCoordinator, Set<Long> studentIds, Status status,
+                      Modality modality, LocalDateTime createdAt, Process process) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.idDirector = idDirector;
+        this.idCoordinator = idCoordinator;  // ← NUEVO
         this.studentIds = studentIds != null ? studentIds : new HashSet<>();
         this.status = status;
         this.modality = modality;
@@ -80,7 +86,6 @@ public class DegreeWork {
 
     public void changeState(DegreeWorkState newState) {
         this.state = newState;
-        // Actualizar el status basado en el tipo de estado
         this.status = determineStatusFromState(newState);
     }
 
@@ -91,7 +96,7 @@ public class DegreeWork {
             case "DegreeWorkFormatAAccepted" -> Status.FORMAT_A_ACCEPTED;
             case "DegreeWorkDraft" -> Status.DRAFT;
             case "DegreeWorkInactive" -> Status.INACTIVE;
-            default -> this.status; // Mantener el estado actual si no se reconoce
+            default -> this.status;
         };
     }
 
@@ -126,6 +131,14 @@ public class DegreeWork {
 
     public void setIdDirector(Long idDirector) {
         this.idDirector = idDirector;
+    }
+
+    public Long getIdCoordinator() {  // ← NUEVO
+        return idCoordinator;
+    }
+
+    public void setIdCoordinator(Long idCoordinator) {  // ← NUEVO
+        this.idCoordinator = idCoordinator;
     }
 
     public Set<Long> getStudentIds() {
