@@ -4,6 +4,7 @@ import co.edu.unicauca.degreework.Enum.Modality;
 import co.edu.unicauca.degreework.Enum.Process;
 import co.edu.unicauca.degreework.Enum.Status;
 import co.edu.unicauca.degreework.States.DegreeWorkState;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -44,6 +45,7 @@ public class DegreeWork {
     private Process process;
 
     @Transient
+    @JsonIgnore
     private DegreeWorkState state;
 
     // Constructores
@@ -64,8 +66,6 @@ public class DegreeWork {
         this.process = process;
     }
 
-    // Otras funciones 👍
-
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
@@ -78,8 +78,21 @@ public class DegreeWork {
         studentIds.add(studentId);
     }
 
-    public void changeState(DegreeWorkState state) {
-        this.state = state;
+    public void changeState(DegreeWorkState newState) {
+        this.state = newState;
+        // Actualizar el status basado en el tipo de estado
+        this.status = determineStatusFromState(newState);
+    }
+
+    private Status determineStatusFromState(DegreeWorkState state) {
+        return switch (state.getClass().getSimpleName()) {
+            case "DegreeWorkCreated" -> Status.CREATED;
+            case "DegreeWorkFormatA" -> Status.FORMAT_A;
+            case "DegreeWorkFormatAAccepted" -> Status.FORMAT_A_ACCEPTED;
+            case "DegreeWorkDraft" -> Status.DRAFT;
+            case "DegreeWorkInactive" -> Status.INACTIVE;
+            default -> this.status; // Mantener el estado actual si no se reconoce
+        };
     }
 
     // Getters y Setters
@@ -153,5 +166,13 @@ public class DegreeWork {
 
     public void setProcess(Process process) {
         this.process = process;
+    }
+
+    public DegreeWorkState getState() {
+        return state;
+    }
+
+    public void setState(DegreeWorkState state) {
+        this.state = state;
     }
 }
