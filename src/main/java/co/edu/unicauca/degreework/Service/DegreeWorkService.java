@@ -1,6 +1,7 @@
 package co.edu.unicauca.degreework.Service;
 
 import co.edu.unicauca.degreework.DTO.CreateDegreeWorkDTO;
+import co.edu.unicauca.degreework.DTO.DegreeWorkResponseDTO;
 import co.edu.unicauca.degreework.Enum.Process;
 import co.edu.unicauca.degreework.Enum.Status;
 import co.edu.unicauca.degreework.Exception.StudentAlreadyHasDegreeWorkException;
@@ -49,6 +50,20 @@ public class DegreeWorkService {
         degreeWork.setProcess(Process.FORMAT_A);
 
         return degreeWorkRepository.save(degreeWork);
+    }
+    public DegreeWorkResponseDTO toResponseDTO(DegreeWork entity) {
+        DegreeWorkResponseDTO dto = new DegreeWorkResponseDTO();
+        dto.setId(entity.getId());
+        dto.setTitle(entity.getTitle());
+        dto.setDescription(entity.getDescription());
+        dto.setIdDirector(entity.getIdDirector());
+        dto.setIdCoordinator(entity.getIdCoordinator());
+        dto.setStudentIds(entity.getStudentIds());
+        dto.setStatus(entity.getStatus());
+        dto.setModality(entity.getModality());
+        dto.setCreatedAt(entity.getCreatedAt());
+        dto.setProcess(entity.getProcess());
+        return dto;
     }
 
     private void validateStudentsAvailability(Set<Long> studentIds) {

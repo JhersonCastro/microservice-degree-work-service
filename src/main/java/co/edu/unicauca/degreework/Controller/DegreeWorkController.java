@@ -1,8 +1,11 @@
 package co.edu.unicauca.degreework.Controller;
 
+import co.edu.unicauca.degreework.Authentication.JwtRequestFilter;
 import co.edu.unicauca.degreework.DTO.CreateDegreeWorkDTO;
+import co.edu.unicauca.degreework.DTO.DegreeWorkResponseDTO;
 import co.edu.unicauca.degreework.Model.DegreeWork;
 import co.edu.unicauca.degreework.Service.DegreeWorkService;
+import co.edu.unicauca.degreework.Utilities.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +23,22 @@ public class DegreeWorkController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<DegreeWork> createDegreeWork(@RequestBody CreateDegreeWorkDTO dto) {
+    public ResponseEntity<DegreeWorkResponseDTO> createDegreeWork(@RequestBody CreateDegreeWorkDTO dto) {
+        String roles = JwtRequestFilter.getCurrentRoles();
+
+        if (roles == null || !roles.contains("DIRECTOR")) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        Long accountId = JwtRequestFilter.getCurrentAccountId();
+        dto.setIdDirector(accountId);
+
         DegreeWork created = degreeWorkService.createDegreeWork(dto);
-        return new ResponseEntity<>(created, HttpStatus.CREATED);
+        DegreeWorkResponseDTO response = degreeWorkService.toResponseDTO(created);
+        Logger.success(getClass(), "Creado degreework" + response.toString());
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<DegreeWork> getDegreeWorkById(@PathVariable Long id) {
