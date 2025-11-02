@@ -1,5 +1,6 @@
 package co.edu.unicauca.degreework.Repository;
 
+import co.edu.unicauca.degreework.DTO.DirectorResponseDTO;
 import co.edu.unicauca.degreework.Enum.Status;
 import co.edu.unicauca.degreework.Model.DegreeWork;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,4 +20,9 @@ public interface DegreeWorkRepository extends JpaRepository<DegreeWork, Long> {
     @Query("SELECT dw FROM DegreeWork dw JOIN dw.studentIds s WHERE s IN :studentIds AND dw.status != :status")
     List<DegreeWork> findByStudentIdsAndStatusNot(@Param("studentIds") List<Long> studentIds,
                                                   @Param("status") Status status);
+
+    @Query("SELECT new co.edu.unicauca.degreework.DTO.DirectorResponseDTO(dw.id, dw.title, dw.description, dw.status, dw.process) " +
+            "FROM DegreeWork dw WHERE dw.idDirector = :directorId")
+    List<DirectorResponseDTO> findByDirectorId(@Param("directorId") Long directorId);
+
 }

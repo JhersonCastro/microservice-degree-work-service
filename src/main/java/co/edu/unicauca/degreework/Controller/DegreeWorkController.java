@@ -2,6 +2,7 @@ package co.edu.unicauca.degreework.Controller;
 
 import co.edu.unicauca.degreework.Authentication.JwtRequestFilter;
 import co.edu.unicauca.degreework.DTO.CreateDegreeWorkDTO;
+import co.edu.unicauca.degreework.DTO.DirectorResponseDTO;
 import co.edu.unicauca.degreework.DTO.DegreeWorkResponseDTO;
 import co.edu.unicauca.degreework.Model.DegreeWork;
 import co.edu.unicauca.degreework.Service.DegreeWorkService;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/degreework")
@@ -44,6 +47,12 @@ public class DegreeWorkController {
     public ResponseEntity<DegreeWork> getDegreeWorkById(@PathVariable Long id) {
         DegreeWork degreeWork = degreeWorkService.getDegreeWorkById(id);
         return ResponseEntity.ok(degreeWork);
+    }
+
+    @GetMapping("/director/{directorId}")
+    public ResponseEntity<List<DirectorResponseDTO>> getDegreeWorksByDirector(@PathVariable Long directorId) {
+        List<DirectorResponseDTO> degreeWorks = degreeWorkService.getDegreeWorksByDirector(directorId);
+        return ResponseEntity.ok(degreeWorks); // Devuelve lista vacía si no hay resultados
     }
 
     // Endpoints para transiciones de estado

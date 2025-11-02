@@ -2,6 +2,7 @@ package co.edu.unicauca.degreework.Service;
 
 import co.edu.unicauca.degreework.DTO.CreateDegreeWorkDTO;
 import co.edu.unicauca.degreework.DTO.DegreeWorkResponseDTO;
+import co.edu.unicauca.degreework.DTO.DirectorResponseDTO;
 import co.edu.unicauca.degreework.Enum.Process;
 import co.edu.unicauca.degreework.Enum.Status;
 import co.edu.unicauca.degreework.Exception.StudentAlreadyHasDegreeWorkException;
@@ -133,5 +134,9 @@ public class DegreeWorkService {
         DegreeWork degreeWork = getDegreeWorkById(id);
         degreeWork.getState().draftTimeExpired();
         return degreeWorkRepository.save(degreeWork);
+    }
+
+    public List<DirectorResponseDTO> getDegreeWorksByDirector(Long directorId) {
+        return degreeWorkRepository.findByDirectorId(directorId);
     }
 }
