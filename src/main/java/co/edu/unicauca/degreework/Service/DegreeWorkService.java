@@ -7,8 +7,11 @@ import co.edu.unicauca.degreework.Enum.Status;
 import co.edu.unicauca.degreework.Exception.StudentAlreadyHasDegreeWorkException;
 import co.edu.unicauca.degreework.Factory.DegreeWorkStateFactory;
 import co.edu.unicauca.degreework.Model.DegreeWork;
+import co.edu.unicauca.degreework.Observer.EventManager;
+import co.edu.unicauca.degreework.Observer.NewDegreeWorkListener;
 import co.edu.unicauca.degreework.Repository.DegreeWorkRepository;
 import co.edu.unicauca.degreework.States.DegreeWorkState;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,12 +25,24 @@ public class DegreeWorkService {
 
     private final DegreeWorkRepository degreeWorkRepository;
     private final DegreeWorkStateFactory stateFactory;
+    private final EventManager eventManager;
+    private final NewDegreeWorkListener newDegreeWorkListener;
 
     @Autowired
     public DegreeWorkService(DegreeWorkRepository degreeWorkRepository,
-                             DegreeWorkStateFactory stateFactory) {
+                             DegreeWorkStateFactory stateFactory,
+                             EventManager eventManager,
+                             NewDegreeWorkListener newDegreeWorkListener) {
         this.degreeWorkRepository = degreeWorkRepository;
         this.stateFactory = stateFactory;
+        this.eventManager = eventManager;
+        this.newDegreeWorkListener = newDegreeWorkListener;
+    }
+
+    // Suscribir listeners después de la construcción
+    @PostConstruct
+    public void init() {
+        eventManager.subscribe("DEGREE_WORK_CREATED", newDegreeWorkListener);
     }
 
     @Transactional
@@ -41,7 +56,7 @@ public class DegreeWorkService {
         degreeWork.setTitle(dto.getTitle());
         degreeWork.setDescription(dto.getDescription());
         degreeWork.setIdDirector(dto.getIdDirector());
-        degreeWork.setIdCoordinator(dto.getIdCoordinator());  // ← NUEVO
+        degreeWork.setIdCoordinator(dto.getIdCoordinator());
         degreeWork.setStudentIds(dto.getStudentIds());
         degreeWork.setModality(dto.getModality());
 
@@ -49,7 +64,13 @@ public class DegreeWorkService {
         degreeWork.setStatus(Status.CREATED);
         degreeWork.setProcess(Process.FORMAT_A);
 
-        return degreeWorkRepository.save(degreeWork);
+        DegreeWork savedDegreeWork = degreeWorkRepository.save(degreeWork);
+
+        // Notificar a todos los listeners suscritos al evento
+        eventManager.notify("DEGREE_WORK_CREATED", savedDegreeWork);
+
+        return savedDegreeWork;
+
     }
 
     private void validateStudentsAvailability(Set<Long> studentIds) {
