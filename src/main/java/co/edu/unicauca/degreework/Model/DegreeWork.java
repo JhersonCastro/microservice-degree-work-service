@@ -107,7 +107,7 @@ public class DegreeWork {
             case "DegreeWorkFormatA", "DegreeWorkFormatAAccepted" -> Process.FORMATO_A;
             case "DegreeWorkDraft" -> Process.ANTEPROYECTO;
             default -> this.process;
-        }
+        };
     }
 
     // Getters y Setters
