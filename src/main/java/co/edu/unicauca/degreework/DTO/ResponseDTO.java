@@ -3,21 +3,21 @@ package co.edu.unicauca.degreework.DTO;
 import co.edu.unicauca.degreework.Enum.Status;
 import co.edu.unicauca.degreework.Enum.Process;
 
-public class DirectorResponseDTO {
+public class ResponseDTO {
     private Long id;
     private String title;
     private String description;
     private String status;
     private String process;
 
-    public DirectorResponseDTO(Long id, String title,String description, Status status, Process process) {
+    public ResponseDTO(Long id, String title, String description, Status status, Process process) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.status = adaptStatus(status);
         this.process = prettyProcess(process);
     }
-    public DirectorResponseDTO() {}
+    public ResponseDTO() {}
 
 
     // Getters

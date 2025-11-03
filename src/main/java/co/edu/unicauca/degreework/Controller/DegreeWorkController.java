@@ -2,7 +2,7 @@ package co.edu.unicauca.degreework.Controller;
 
 import co.edu.unicauca.degreework.Authentication.JwtRequestFilter;
 import co.edu.unicauca.degreework.DTO.CreateDegreeWorkDTO;
-import co.edu.unicauca.degreework.DTO.DirectorResponseDTO;
+import co.edu.unicauca.degreework.DTO.ResponseDTO;
 import co.edu.unicauca.degreework.DTO.DegreeWorkResponseDTO;
 import co.edu.unicauca.degreework.Model.DegreeWork;
 import co.edu.unicauca.degreework.Service.DegreeWorkService;
@@ -50,10 +50,17 @@ public class DegreeWorkController {
     }
 
     @GetMapping("/director/getAll")
-    public ResponseEntity<List<DirectorResponseDTO>> getDegreeWorksByDirector() {
+    public ResponseEntity<List<ResponseDTO>> getDegreeWorksByDirector() {
         Long accountId = JwtRequestFilter.getCurrentAccountId();
-        List<DirectorResponseDTO> degreeWorks = degreeWorkService.getDegreeWorksByDirector(accountId);
+        List<ResponseDTO> degreeWorks = degreeWorkService.getDegreeWorksByDirector(accountId);
         return ResponseEntity.ok(degreeWorks); // Devuelve lista vacía si no hay resultados
+    }
+
+    @GetMapping("/coordinator/getAll")
+    public ResponseEntity<List<ResponseDTO>> getDegreeWorksByCoordinator() {
+        Long accountId = JwtRequestFilter.getCurrentAccountId();
+        List<ResponseDTO> degreeWorks = degreeWorkService.getDegreeWorksByCoordinator(accountId);
+        return ResponseEntity.ok(degreeWorks);
     }
 
     // Endpoints para transiciones de estado
