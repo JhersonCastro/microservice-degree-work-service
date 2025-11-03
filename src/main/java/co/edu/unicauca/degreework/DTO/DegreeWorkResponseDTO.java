@@ -17,7 +17,6 @@ public class DegreeWorkResponseDTO {
     private Status status;
     private Modality modality;
     private LocalDateTime createdAt;
-    private Process process;
 
     // --- Getters & Setters ---
     public Long getId() {
@@ -92,11 +91,18 @@ public class DegreeWorkResponseDTO {
         this.createdAt = createdAt;
     }
 
-    public Process getProcess() {
-        return process;
-    }
-
-    public void setProcess(Process process) {
-        this.process = process;
+    @Override
+    public String toString() {
+        return "DegreeWorkResponseDTO{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", idDirector=" + idDirector +
+                ", idCoordinator=" + idCoordinator +
+                ", studentIds=" + studentIds +
+                ", status=" + status +
+                ", modality=" + modality +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }

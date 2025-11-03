@@ -12,11 +12,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -57,7 +54,7 @@ class DegreeWorkControllerTest {
                 12345L,
                 67890L,
                 studentIds,
-                Modality.INVESTIGATION
+                Modality.INVESTIGACION
         );
 
         mockDegreeWork = new DegreeWork(
@@ -68,7 +65,7 @@ class DegreeWorkControllerTest {
                 67890L,
                 studentIds,
                 Status.CREATED,
-                Modality.INVESTIGATION,
+                Modality.INVESTIGACION,
                 LocalDateTime.now(),
                 Process.FORMAT_A
         );

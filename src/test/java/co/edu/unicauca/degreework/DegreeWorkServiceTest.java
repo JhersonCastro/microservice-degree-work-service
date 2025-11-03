@@ -11,7 +11,6 @@ import co.edu.unicauca.degreework.Repository.DegreeWorkRepository;
 import co.edu.unicauca.degreework.Service.DegreeWorkService;
 import co.edu.unicauca.degreework.States.DegreeWorkCreated;
 import co.edu.unicauca.degreework.States.DegreeWorkFormatA;
-import co.edu.unicauca.degreework.States.DegreeWorkInactive;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -54,7 +53,7 @@ class DegreeWorkServiceTest {
                 12345L,
                 67890L,  // ← NUEVO idCoordinator
                 studentIds,
-                Modality.INVESTIGATION
+                Modality.INVESTIGACION
         );
 
         mockDegreeWork = new DegreeWork(
@@ -65,7 +64,7 @@ class DegreeWorkServiceTest {
                 67890L,  // ← NUEVO idCoordinator
                 studentIds,
                 Status.CREATED,
-                Modality.INVESTIGATION,
+                Modality.INVESTIGACION,
                 LocalDateTime.now(),
                 Process.FORMAT_A
         );
@@ -107,7 +106,7 @@ class DegreeWorkServiceTest {
                 67890L,
                 new HashSet<>(Collections.singletonList(1001L)),
                 Status.FORMAT_A,
-                Modality.INVESTIGATION,
+                Modality.INVESTIGACION,
                 LocalDateTime.now(),
                 Process.FORMAT_A
         );
@@ -141,7 +140,7 @@ class DegreeWorkServiceTest {
                 67890L,
                 new HashSet<>(Collections.singletonList(1001L)),
                 Status.INACTIVE,
-                Modality.INVESTIGATION,
+                Modality.INVESTIGACION,
                 LocalDateTime.now(),
                 Process.FORMAT_A
         );
@@ -332,7 +331,7 @@ class DegreeWorkServiceTest {
                 12345L,
                 67890L,
                 new HashSet<>(),
-                Modality.INVESTIGATION
+                Modality.INVESTIGACION
         );
 
         DegreeWork mockResult = new DegreeWork(
@@ -343,7 +342,7 @@ class DegreeWorkServiceTest {
                 dtoWithoutStudents.getIdCoordinator(),
                 new HashSet<>(),
                 Status.CREATED,
-                Modality.INVESTIGATION,
+                Modality.INVESTIGACION,
                 LocalDateTime.now(),
                 Process.FORMAT_A
         );

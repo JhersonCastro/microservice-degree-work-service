@@ -38,7 +38,7 @@ public class DegreeWorkController {
 
         DegreeWork created = degreeWorkService.createDegreeWork(dto);
         DegreeWorkResponseDTO response = degreeWorkService.toResponseDTO(created);
-        Logger.success(getClass(), "Creado degreework" + response.toString());
+        Logger.success(getClass(), "Creado degreework -> Dto response -> " + response.toString());
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
@@ -49,9 +49,10 @@ public class DegreeWorkController {
         return ResponseEntity.ok(degreeWork);
     }
 
-    @GetMapping("/director/{directorId}")
-    public ResponseEntity<List<DirectorResponseDTO>> getDegreeWorksByDirector(@PathVariable Long directorId) {
-        List<DirectorResponseDTO> degreeWorks = degreeWorkService.getDegreeWorksByDirector(directorId);
+    @GetMapping("/director/getAll")
+    public ResponseEntity<List<DirectorResponseDTO>> getDegreeWorksByDirector() {
+        Long accountId = JwtRequestFilter.getCurrentAccountId();
+        List<DirectorResponseDTO> degreeWorks = degreeWorkService.getDegreeWorksByDirector(accountId);
         return ResponseEntity.ok(degreeWorks); // Devuelve lista vacía si no hay resultados
     }
 

@@ -21,7 +21,7 @@ public interface DegreeWorkRepository extends JpaRepository<DegreeWork, Long> {
     List<DegreeWork> findByStudentIdsAndStatusNot(@Param("studentIds") List<Long> studentIds,
                                                   @Param("status") Status status);
 
-    @Query("SELECT new co.edu.unicauca.degreework.DTO.DirectorResponseDTO(dw.id, dw.title, dw.description, dw.status, dw.process) " +
+    @Query("SELECT new co.edu.unicauca.degreework.DTO.DirectorResponseDTO(dw.id, dw.title, dw.description, dw.status) " +
             "FROM DegreeWork dw WHERE dw.idDirector = :directorId")
     List<DirectorResponseDTO> findByDirectorId(@Param("directorId") Long directorId);
 

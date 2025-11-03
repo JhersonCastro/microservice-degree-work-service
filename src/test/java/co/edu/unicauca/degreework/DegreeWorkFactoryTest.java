@@ -38,7 +38,7 @@ class DegreeWorkStateFactoryTest {
                 67890L,  // ← NUEVO idCoordinator
                 studentIds,
                 Status.CREATED,
-                Modality.INVESTIGATION,
+                Modality.INVESTIGACION,
                 LocalDateTime.now(),
                 Process.FORMAT_A
         );

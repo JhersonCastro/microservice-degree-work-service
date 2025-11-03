@@ -42,7 +42,7 @@ public class DegreeWorkService {
         degreeWork.setTitle(dto.getTitle());
         degreeWork.setDescription(dto.getDescription());
         degreeWork.setIdDirector(dto.getIdDirector());
-        degreeWork.setIdCoordinator(dto.getIdCoordinator());  // ← NUEVO
+        degreeWork.setIdCoordinator(dto.getIdCoordinator());
         degreeWork.setStudentIds(dto.getStudentIds());
         degreeWork.setModality(dto.getModality());
 
@@ -63,7 +63,6 @@ public class DegreeWorkService {
         dto.setStatus(entity.getStatus());
         dto.setModality(entity.getModality());
         dto.setCreatedAt(entity.getCreatedAt());
-        dto.setProcess(entity.getProcess());
         return dto;
     }
 
