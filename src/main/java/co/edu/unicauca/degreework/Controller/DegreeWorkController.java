@@ -86,4 +86,10 @@ public class DegreeWorkController {
         DegreeWork updated = degreeWorkService.expireDraftTime(id);
         return ResponseEntity.ok(updated);
     }
+
+    @PostMapping("/{id}/aprove-draft")
+    public ResponseEntity<DegreeWork> approveDraft(@PathVariable Long id) {
+        DegreeWork updated = degreeWorkService.aproveDraft(id);
+        return ResponseEntity.ok(updated);
+    }
 }

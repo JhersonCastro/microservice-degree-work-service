@@ -87,6 +87,7 @@ public class DegreeWork {
     public void changeState(DegreeWorkState newState) {
         this.state = newState;
         this.status = determineStatusFromState(newState);
+        this.process = convertStateToProcess(newState);
     }
 
     private Status determineStatusFromState(DegreeWorkState state) {
@@ -98,6 +99,15 @@ public class DegreeWork {
             case "DegreeWorkInactive" -> Status.INACTIVE;
             default -> this.status;
         };
+    }
+
+    private Process convertStateToProcess(DegreeWorkState state) {
+        return switch (state.getClass().getSimpleName()) {
+            case "DegreeWorkCreated", "DegreeWorkInactive" -> Process.INACTIVO;
+            case "DegreeWorkFormatA", "DegreeWorkFormatAAccepted" -> Process.FORMATO_A;
+            case "DegreeWorkDraft" -> Process.ANTEPROYECTO;
+            default -> this.process;
+        }
     }
 
     // Getters y Setters

@@ -67,7 +67,7 @@ class DegreeWorkControllerTest {
                 Status.CREATED,
                 Modality.INVESTIGACION,
                 LocalDateTime.now(),
-                Process.FORMAT_A
+                Process.FORMATO_A
         );
     }
 

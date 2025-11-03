@@ -31,4 +31,9 @@ public class DegreeWorkDraft extends DegreeWorkState{
     public void draftTimeExpired() {
         // no hace nada
     }
+
+    @Override
+    public void draftAproved() {
+        this.degreeWork.changeState(new DegreeWorkDraftAproved(degreeWork));
+    }
 }

@@ -2,8 +2,9 @@ package co.edu.unicauca.degreework.States;
 
 import co.edu.unicauca.degreework.Model.DegreeWork;
 
-public class DegreeWorkInactive extends DegreeWorkState{
-    public DegreeWorkInactive(DegreeWork degreeWork) {
+public class DegreeWorkDraftAproved extends DegreeWorkState{
+
+    public DegreeWorkDraftAproved(DegreeWork degreeWork) {
         super(degreeWork);
     }
 

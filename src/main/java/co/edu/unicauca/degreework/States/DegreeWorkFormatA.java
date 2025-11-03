@@ -32,4 +32,9 @@ public class DegreeWorkFormatA extends DegreeWorkState{
     public void draftTimeExpired() {
         // no hace nada
     }
+
+    @Override
+    public void draftAproved() {
+        // no hace nada
+    }
 }

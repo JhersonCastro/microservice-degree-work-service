@@ -5,5 +5,6 @@ public enum Status {
     FORMAT_A,
     FORMAT_A_ACCEPTED,
     DRAFT,
-    INACTIVE
+    INACTIVE,
+    APROVED
 }

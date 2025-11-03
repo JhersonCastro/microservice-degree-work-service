@@ -31,4 +31,9 @@ public class DegreeWorkFormatAAccepted extends DegreeWorkState{
     public void draftTimeExpired() {
         degreeWork.changeState(new DegreeWorkInactive(degreeWork));
     }
+
+    @Override
+    public void draftAproved() {
+        // no hace nada
+    }
 }

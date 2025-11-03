@@ -15,4 +15,5 @@ public abstract class DegreeWorkState {
     public abstract void formatAAccepted();
     public abstract void uploadDraft();
     public abstract void draftTimeExpired();
+    public abstract void draftAproved();
 }

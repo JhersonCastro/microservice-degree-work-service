@@ -63,7 +63,7 @@ public class DegreeWorkService {
 
         // Valores por defecto
         degreeWork.setStatus(Status.CREATED);
-        degreeWork.setProcess(Process.FORMAT_A);
+        degreeWork.setProcess(Process.FORMATO_A);
 
         DegreeWork savedDegreeWork = degreeWorkRepository.save(degreeWork);
 
@@ -153,6 +153,13 @@ public class DegreeWorkService {
     public DegreeWork expireDraftTime(Long id) {
         DegreeWork degreeWork = getDegreeWorkById(id);
         degreeWork.getState().draftTimeExpired();
+        return degreeWorkRepository.save(degreeWork);
+    }
+
+    @Transactional
+    public DegreeWork aproveDraft(Long id){
+        DegreeWork degreeWork = getDegreeWorkById(id);
+        degreeWork.getState().draftAproved();
         return degreeWorkRepository.save(degreeWork);
     }
 

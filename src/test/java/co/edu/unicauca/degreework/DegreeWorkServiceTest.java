@@ -66,7 +66,7 @@ class DegreeWorkServiceTest {
                 Status.CREATED,
                 Modality.INVESTIGACION,
                 LocalDateTime.now(),
-                Process.FORMAT_A
+                Process.FORMATO_A
         );
     }
 
@@ -86,7 +86,7 @@ class DegreeWorkServiceTest {
         assertNotNull(result);
         assertEquals("Sistema de gestión de proyectos", result.getTitle());
         assertEquals(Status.CREATED, result.getStatus());
-        assertEquals(Process.FORMAT_A, result.getProcess());
+        assertEquals(Process.FORMATO_A, result.getProcess());
         assertEquals(2, result.getStudentIds().size());
 
         verify(degreeWorkRepository, times(1))
@@ -108,7 +108,7 @@ class DegreeWorkServiceTest {
                 Status.FORMAT_A,
                 Modality.INVESTIGACION,
                 LocalDateTime.now(),
-                Process.FORMAT_A
+                Process.FORMATO_A
         );
 
         when(degreeWorkRepository.findByStudentIdsAndStatusNot(anyList(), eq(Status.INACTIVE)))
@@ -142,7 +142,7 @@ class DegreeWorkServiceTest {
                 Status.INACTIVE,
                 Modality.INVESTIGACION,
                 LocalDateTime.now(),
-                Process.FORMAT_A
+                Process.FORMATO_A
         );
 
         // Solo devolvemos trabajos NO inactivos, por lo que esta lista está vacía
@@ -344,7 +344,7 @@ class DegreeWorkServiceTest {
                 Status.CREATED,
                 Modality.INVESTIGACION,
                 LocalDateTime.now(),
-                Process.FORMAT_A
+                Process.FORMATO_A
         );
 
         when(degreeWorkRepository.save(any(DegreeWork.class)))
