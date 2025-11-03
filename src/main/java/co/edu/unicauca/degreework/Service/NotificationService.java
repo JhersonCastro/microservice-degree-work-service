@@ -1,5 +1,6 @@
 package co.edu.unicauca.degreework.Service;
 
+import co.edu.unicauca.degreework.DTO.ComunDTO;
 import co.edu.unicauca.degreework.Model.DegreeWork;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,5 +14,9 @@ public class NotificationService {
     public void loggerNotification(String idDegreeWork) {
         logger.info("=== NEW DEGREE WORK CREATED ===");
         logger.info(idDegreeWork);
+    }
+
+    public void comunNotification(ComunDTO comunDTO){
+
     }
 }
