@@ -22,7 +22,7 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/public/**").permitAll()
+                        .requestMatchers("/api/degreework/create").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(ex -> ex

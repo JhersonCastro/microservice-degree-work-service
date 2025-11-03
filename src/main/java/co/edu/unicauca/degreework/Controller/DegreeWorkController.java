@@ -29,9 +29,10 @@ public class DegreeWorkController {
     public ResponseEntity<DegreeWorkResponseDTO> createDegreeWork(@RequestBody CreateDegreeWorkDTO dto) {
         String roles = JwtRequestFilter.getCurrentRoles();
 
-        if (roles == null || !roles.contains("DIRECTOR")) {
+        /*if (roles == null || !roles.contains("DIRECTOR")) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
+         */
 
         Long accountId = JwtRequestFilter.getCurrentAccountId();
         dto.setIdDirector(accountId);
@@ -41,7 +42,6 @@ public class DegreeWorkController {
         Logger.success(getClass(), "Creado degreework -> Dto response -> " + response.toString());
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<DegreeWork> getDegreeWorkById(@PathVariable Long id) {
@@ -63,7 +63,6 @@ public class DegreeWorkController {
         return ResponseEntity.ok(degreeWorks);
     }
 
-    // Endpoints para transiciones de estado
     @PostMapping("/{id}/upload-format-a")
     public ResponseEntity<DegreeWork> uploadFormatA(@PathVariable Long id) {
         DegreeWork updated = degreeWorkService.uploadFormatA(id);
