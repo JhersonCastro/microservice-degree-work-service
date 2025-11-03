@@ -112,8 +112,8 @@ public class DegreeWorkService {
     }
 
     public DegreeWork getDegreeWorkById(Long id) {
-        DegreeWork degreeWork = degreeWorkRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("DegreeWork no encontrado con id: " + id));
+        DegreeWork degreeWork = degreeWorkRepository.findDegreeWorkById(id);
+        //DegreeWork degreeWork = new DegreeWork();
 
         DegreeWorkState state = stateFactory.createState(degreeWork);
         degreeWork.setState(state);
