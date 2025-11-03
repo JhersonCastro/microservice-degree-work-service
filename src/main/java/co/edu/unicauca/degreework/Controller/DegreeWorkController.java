@@ -70,17 +70,24 @@ public class DegreeWorkController {
         return ResponseEntity.ok(updated);
     }
 
-    @PostMapping("/{id}/reject-format-a")
-    public ResponseEntity<DegreeWork> rejectFormatA(@PathVariable Long id) {
-        DegreeWork updated = degreeWorkService.rejectFormatA(id);
-        return ResponseEntity.ok(updated);
+    @PostMapping("/{id}/accept-format-a")
+    public ResponseEntity<String> acceptFormatA(@PathVariable Long id) {
+        degreeWorkService.acceptFormatA(id);
+        return ResponseEntity.ok("Format A aceptado correctamente");
     }
 
-    @PostMapping("/{id}/accept-format-a")
-    public ResponseEntity<DegreeWork> acceptFormatA(@PathVariable Long id) {
-        DegreeWork updated = degreeWorkService.acceptFormatA(id);
-        return ResponseEntity.ok(updated);
+    @PostMapping("/{id}/reject-format-a")
+    public ResponseEntity<String> rejectFormatA(@PathVariable Long id) {
+        degreeWorkService.rejectFormatA(id);
+        return ResponseEntity.ok("Format A rechazado");
     }
+
+    @PostMapping("/{id}/aprove-draft")
+    public ResponseEntity<String> approveDraft(@PathVariable Long id) {
+        degreeWorkService.aproveDraft(id);
+        return ResponseEntity.ok("Draft aprobado correctamente");
+    }
+
 
     @PostMapping("/{id}/upload-draft")
     public ResponseEntity<DegreeWork> uploadDraft(@PathVariable Long id) {
@@ -91,12 +98,6 @@ public class DegreeWorkController {
     @PostMapping("/{id}/expire-draft")
     public ResponseEntity<DegreeWork> expireDraftTime(@PathVariable Long id) {
         DegreeWork updated = degreeWorkService.expireDraftTime(id);
-        return ResponseEntity.ok(updated);
-    }
-
-    @PostMapping("/{id}/aprove-draft")
-    public ResponseEntity<DegreeWork> approveDraft(@PathVariable Long id) {
-        DegreeWork updated = degreeWorkService.aproveDraft(id);
         return ResponseEntity.ok(updated);
     }
 }
