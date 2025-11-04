@@ -1,6 +1,7 @@
 package co.edu.unicauca.degreework.Controller;
 
 import co.edu.unicauca.degreework.Authentication.JwtRequestFilter;
+import co.edu.unicauca.degreework.Comunication.Publisher;
 import co.edu.unicauca.degreework.DTO.CreateDegreeWorkDTO;
 import co.edu.unicauca.degreework.DTO.ResponseDTO;
 import co.edu.unicauca.degreework.DTO.DegreeWorkResponseDTO;
@@ -25,6 +26,11 @@ public class DegreeWorkController {
         this.degreeWorkService = degreeWorkService;
     }
 
+    @Autowired
+    private Publisher publisher;
+    @Autowired
+    public void setPublisher(Publisher publisher) {}
+
     @PostMapping("/create")
     public ResponseEntity<DegreeWorkResponseDTO> createDegreeWork(@RequestBody CreateDegreeWorkDTO dto) {
         String roles = JwtRequestFilter.getCurrentRoles();
@@ -44,6 +50,7 @@ public class DegreeWorkController {
 
         DegreeWork created = degreeWorkService.createDegreeWork(dto);
         DegreeWorkResponseDTO response = degreeWorkService.toResponseDTO(created);
+        PostComunQueue("DegreeWork creado con el id:"+created.getId()+"notificando a los interesados...");
         Logger.success(getClass(), "Creado degreework -> Dto response -> " + response.toString());
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -71,24 +78,28 @@ public class DegreeWorkController {
     @PostMapping("/{id}/upload-format-a")
     public ResponseEntity<DegreeWork> uploadFormatA(@PathVariable Long id) {
         DegreeWork updated = degreeWorkService.uploadFormatA(id);
+        PostComunQueue("FormatoA diligenciado en el DegreeWork con id:"+updated.getId()+"notificando a los interesados...");
         return ResponseEntity.ok(updated);
     }
 
     @PostMapping("/{id}/accept-format-a")
     public ResponseEntity<String> acceptFormatA(@PathVariable Long id) {
         degreeWorkService.acceptFormatA(id);
+        PostComunQueue("formatoA aceptado en el DegreeWork con id:"+id+"notificando a los interesados...");
         return ResponseEntity.ok("Format A aceptado correctamente");
     }
 
     @PostMapping("/{id}/reject-format-a")
     public ResponseEntity<String> rejectFormatA(@PathVariable Long id) {
         degreeWorkService.rejectFormatA(id);
+        PostComunQueue("formatoA rechazado en el DegreeWork con id:"+id+"notificando a los interesados...");
         return ResponseEntity.ok("Format A rechazado");
     }
 
     @PostMapping("/{id}/aprove-draft")
     public ResponseEntity<String> approveDraft(@PathVariable Long id) {
         degreeWorkService.aproveDraft(id);
+        PostComunQueue("Draft rechazado en el DegreeWork con id:"+id+"notificando a los interesados...");
         return ResponseEntity.ok("Draft aprobado correctamente");
     }
 
@@ -96,12 +107,20 @@ public class DegreeWorkController {
     @PostMapping("/{id}/upload-draft")
     public ResponseEntity<DegreeWork> uploadDraft(@PathVariable Long id) {
         DegreeWork updated = degreeWorkService.uploadDraft(id);
+        PostComunQueue("Draft diligenciado en el DegreeWork con id:"+id+"notificando a los interesados...");
         return ResponseEntity.ok(updated);
     }
 
     @PostMapping("/{id}/expire-draft")
     public ResponseEntity<DegreeWork> expireDraftTime(@PathVariable Long id) {
         DegreeWork updated = degreeWorkService.expireDraftTime(id);
+        PostComunQueue("Tiempo limite alcanzado para en Draft en el DegreeWork con id:"+id+"notificando a los interesados...");
         return ResponseEntity.ok(updated);
+    }
+
+    @PostMapping("/notificationQueue")
+    public ResponseEntity<String> PostComunQueue(@RequestBody String message) {
+        publisher.sendMessageNotificationQueue(message);
+        return ResponseEntity.ok("Message sent");
     }
 }

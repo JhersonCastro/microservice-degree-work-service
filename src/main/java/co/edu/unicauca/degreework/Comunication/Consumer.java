@@ -1,4 +1,4 @@
-package co.edu.unicauca.degreework.Consumer;
+package co.edu.unicauca.degreework.Comunication;
 
 import co.edu.unicauca.degreework.DTO.ComunDTO;
 import co.edu.unicauca.degreework.Model.DegreeWork;
