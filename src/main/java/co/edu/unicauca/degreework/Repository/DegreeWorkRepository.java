@@ -29,4 +29,6 @@ public interface DegreeWorkRepository extends JpaRepository<DegreeWork, Long> {
             "FROM DegreeWork dw WHERE dw.idCoordinator = :coordinatorId")
     List<ResponseDTO> findByCoordinatorId(@Param("coordinatorId") Long coordinatorId);
 
+    @Query("SELECT dw from DegreeWork dw WHERE dw.id = :dw_id")
+    DegreeWork findDegreeWorkById(@Param("dw_id") Long dw_id);
 }
