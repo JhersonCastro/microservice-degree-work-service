@@ -29,13 +29,18 @@ public class DegreeWorkController {
     public ResponseEntity<DegreeWorkResponseDTO> createDegreeWork(@RequestBody CreateDegreeWorkDTO dto) {
         String roles = JwtRequestFilter.getCurrentRoles();
 
-        /*if (roles == null || !roles.contains("DIRECTOR")) {
+        /*
+        if (roles == null || !roles.contains("DIRECTOR")) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-         */
+        */
 
         Long accountId = JwtRequestFilter.getCurrentAccountId();
         dto.setIdDirector(accountId);
+
+        if(accountId == null){
+            dto.setIdDirector(1L);
+        }
 
         DegreeWork created = degreeWorkService.createDegreeWork(dto);
         DegreeWorkResponseDTO response = degreeWorkService.toResponseDTO(created);
