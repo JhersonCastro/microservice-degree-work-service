@@ -9,9 +9,17 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Global exception handler for REST controllers
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    /**
+     * Handles StudentAlreadyHasDegreeWorkException
+     * @param ex The exception instance
+     * @return ResponseEntity with error details
+     */
     @ExceptionHandler(StudentAlreadyHasDegreeWorkException.class)
     public ResponseEntity<Map<String, Object>> handleStudentAlreadyHasDegreeWork(
             StudentAlreadyHasDegreeWorkException ex) {
@@ -26,6 +34,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.CONFLICT);
     }
 
+    /**
+     * Handles generic RuntimeException
+     * @param ex The runtime exception
+     * @return ResponseEntity with error details
+     */
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Map<String, Object>> handleRuntimeException(RuntimeException ex) {
 

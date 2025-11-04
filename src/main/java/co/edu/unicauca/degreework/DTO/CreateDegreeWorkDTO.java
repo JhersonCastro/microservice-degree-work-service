@@ -3,30 +3,44 @@ package co.edu.unicauca.degreework.DTO;
 import co.edu.unicauca.degreework.Enum.Modality;
 import java.util.Set;
 
+/**
+ * DTO for creating degree work
+ */
 public class CreateDegreeWorkDTO {
 
     private String title;
     private String description;
     private Long idDirector;
-    private Long idCoordinator;  // ← NUEVO
+    private Long idCoordinator;
     private Set<Long> studentIds;
     private Modality modality;
 
-    // Constructores
+    /**
+     * Default constructor
+     */
     public CreateDegreeWorkDTO() {
     }
 
+    /**
+     * Constructs CreateDegreeWorkDTO with all fields
+     * @param title Degree work title
+     * @param description Degree work description
+     * @param idDirector Director ID
+     * @param idCoordinator Coordinator ID
+     * @param studentIds Set of student IDs
+     * @param modality Work modality
+     */
     public CreateDegreeWorkDTO(String title, String description, Long idDirector,
                                Long idCoordinator, Set<Long> studentIds, Modality modality) {
         this.title = title;
         this.description = description;
         this.idDirector = idDirector;
-        this.idCoordinator = idCoordinator;  // ← NUEVO
+        this.idCoordinator = idCoordinator;
         this.studentIds = studentIds;
         this.modality = modality;
     }
 
-    // Getters y Setters
+    // Getters and Setters
     public String getTitle() {
         return title;
     }
@@ -51,11 +65,11 @@ public class CreateDegreeWorkDTO {
         this.idDirector = idDirector;
     }
 
-    public Long getIdCoordinator() {  // ← NUEVO
+    public Long getIdCoordinator() {
         return idCoordinator;
     }
 
-    public void setIdCoordinator(Long idCoordinator) {  // ← NUEVO
+    public void setIdCoordinator(Long idCoordinator) {
         this.idCoordinator = idCoordinator;
     }
 

@@ -14,16 +14,30 @@ public class PublisherConfig {
     @Value("${notificationQueue.name}")
     private String notificationQueue;
 
+    /**
+     * Creates notification queue bean
+     * @return Configured queue
+     */
     @Bean
     public Queue notificationQueue() {
         return new Queue(notificationQueue, true);
     }
 
+    /**
+     * Creates JSON message converter
+     * @return Jackson JSON converter
+     */
     @Bean
     public Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
         return new Jackson2JsonMessageConverter();
     }
 
+    /**
+     * Configures RabbitTemplate with JSON converter
+     * @param connectionFactory RabbitMQ connection factory
+     * @param messageConverter JSON message converter
+     * @return Configured RabbitTemplate
+     */
     @Bean
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory, Jackson2JsonMessageConverter messageConverter) {
         RabbitTemplate template = new RabbitTemplate(connectionFactory);

@@ -20,17 +20,23 @@ import java.util.List;
 public class DegreeWorkController {
 
     private final DegreeWorkService degreeWorkService;
+    private final Publisher publisher;
 
+    /**
+     * Constructor for DegreeWorkController
+     * @param degreeWorkService Service for degree work operations
+     */
     @Autowired
-    public DegreeWorkController(DegreeWorkService degreeWorkService) {
+    public DegreeWorkController(DegreeWorkService degreeWorkService, Publisher publisher) {
         this.degreeWorkService = degreeWorkService;
+        this.publisher = publisher;
     }
 
-    @Autowired
-    private Publisher publisher;
-    @Autowired
-    public void setPublisher(Publisher publisher) {}
-
+    /**
+     * Creates a new degree work
+     * @param dto Degree work data transfer object
+     * @return ResponseEntity with created degree work
+     */
     @PostMapping("/create")
     public ResponseEntity<DegreeWorkResponseDTO> createDegreeWork(@RequestBody CreateDegreeWorkDTO dto) {
         String roles = JwtRequestFilter.getCurrentRoles();
@@ -55,19 +61,32 @@ public class DegreeWorkController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    /**
+     * Retrieves degree work by ID
+     * @param id Degree work identifier
+     * @return ResponseEntity with degree work data
+     */
     @GetMapping("/{id}")
     public ResponseEntity<DegreeWork> getDegreeWorkById(@PathVariable Long id) {
         DegreeWork degreeWork = degreeWorkService.getDegreeWorkById(id);
         return ResponseEntity.ok(degreeWork);
     }
 
+    /**
+     * Gets all degree works for current director
+     * @return List of degree works for director
+     */
     @GetMapping("/director/getAll")
     public ResponseEntity<List<ResponseDTO>> getDegreeWorksByDirector() {
         Long accountId = JwtRequestFilter.getCurrentAccountId();
         List<ResponseDTO> degreeWorks = degreeWorkService.getDegreeWorksByDirector(accountId);
-        return ResponseEntity.ok(degreeWorks); // Devuelve lista vacía si no hay resultados
+        return ResponseEntity.ok(degreeWorks); // Returns empty list if no results
     }
 
+    /**
+     * Gets all degree works for current coordinator
+     * @return List of degree works for coordinator
+     */
     @GetMapping("/coordinator/getAll")
     public ResponseEntity<List<ResponseDTO>> getDegreeWorksByCoordinator() {
         Long accountId = JwtRequestFilter.getCurrentAccountId();
@@ -75,6 +94,11 @@ public class DegreeWorkController {
         return ResponseEntity.ok(degreeWorks);
     }
 
+    /**
+     * Uploads format A for degree work
+     * @param id Degree work identifier
+     * @return Updated degree work
+     */
     @PostMapping("/{id}/upload-format-a")
     public ResponseEntity<DegreeWork> uploadFormatA(@PathVariable Long id) {
         DegreeWork updated = degreeWorkService.uploadFormatA(id);
@@ -82,6 +106,11 @@ public class DegreeWorkController {
         return ResponseEntity.ok(updated);
     }
 
+    /**
+     * Accepts format A for degree work
+     * @param id Degree work identifier
+     * @return Success message
+     */
     @PostMapping("/{id}/accept-format-a")
     public ResponseEntity<String> acceptFormatA(@PathVariable Long id) {
         degreeWorkService.acceptFormatA(id);
@@ -89,6 +118,11 @@ public class DegreeWorkController {
         return ResponseEntity.ok("Format A aceptado correctamente");
     }
 
+    /**
+     * Rejects format A for degree work
+     * @param id Degree work identifier
+     * @return Success message
+     */
     @PostMapping("/{id}/reject-format-a")
     public ResponseEntity<String> rejectFormatA(@PathVariable Long id) {
         degreeWorkService.rejectFormatA(id);
@@ -96,6 +130,11 @@ public class DegreeWorkController {
         return ResponseEntity.ok("Format A rechazado");
     }
 
+    /**
+     * Approves draft for degree work
+     * @param id Degree work identifier
+     * @return Success message
+     */
     @PostMapping("/{id}/aprove-draft")
     public ResponseEntity<String> approveDraft(@PathVariable Long id) {
         degreeWorkService.aproveDraft(id);
@@ -103,7 +142,11 @@ public class DegreeWorkController {
         return ResponseEntity.ok("Draft aprobado correctamente");
     }
 
-
+    /**
+     * Uploads draft for degree work
+     * @param id Degree work identifier
+     * @return Updated degree work
+     */
     @PostMapping("/{id}/upload-draft")
     public ResponseEntity<DegreeWork> uploadDraft(@PathVariable Long id) {
         DegreeWork updated = degreeWorkService.uploadDraft(id);
@@ -111,6 +154,11 @@ public class DegreeWorkController {
         return ResponseEntity.ok(updated);
     }
 
+    /**
+     * Expires draft time for degree work
+     * @param id Degree work identifier
+     * @return Updated degree work
+     */
     @PostMapping("/{id}/expire-draft")
     public ResponseEntity<DegreeWork> expireDraftTime(@PathVariable Long id) {
         DegreeWork updated = degreeWorkService.expireDraftTime(id);
@@ -118,6 +166,11 @@ public class DegreeWorkController {
         return ResponseEntity.ok(updated);
     }
 
+    /**
+     * Sends message to notification queue
+     * @param message Message to send
+     * @return Success response
+     */
     @PostMapping("/notificationQueue")
     public ResponseEntity<String> PostComunQueue(@RequestBody String message) {
         publisher.sendMessageNotificationQueue(message);

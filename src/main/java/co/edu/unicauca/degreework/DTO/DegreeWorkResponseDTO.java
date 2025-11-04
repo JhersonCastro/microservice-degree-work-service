@@ -6,6 +6,9 @@ import co.edu.unicauca.degreework.Enum.Status;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+/**
+ * DTO for degree work response
+ */
 public class DegreeWorkResponseDTO {
 
     private Long id;
@@ -18,7 +21,7 @@ public class DegreeWorkResponseDTO {
     private Modality modality;
     private LocalDateTime createdAt;
 
-    // --- Getters & Setters ---
+    // Getters & Setters
     public Long getId() {
         return id;
     }

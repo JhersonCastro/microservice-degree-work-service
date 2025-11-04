@@ -5,9 +5,17 @@ import co.edu.unicauca.degreework.Model.DegreeWork;
 import co.edu.unicauca.degreework.States.*;
 import org.springframework.stereotype.Component;
 
+/**
+ * Factory for creating degree work states based on status
+ */
 @Component
 public class DegreeWorkStateFactory {
 
+    /**
+     * Creates state instance based on degree work status
+     * @param degreeWork Degree work entity
+     * @return Corresponding state instance
+     */
     public DegreeWorkState createState(DegreeWork degreeWork) {
         Status status = degreeWork.getStatus();
 

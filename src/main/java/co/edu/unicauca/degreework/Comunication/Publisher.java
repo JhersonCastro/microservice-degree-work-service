@@ -11,10 +11,16 @@ public class Publisher {
 
     private final RabbitTemplate rabbitTemplate;
     private final Queue notificationQueue;
+
     public Publisher(RabbitTemplate rabbitTemplate, Queue notificationQueue) {
         this.rabbitTemplate = rabbitTemplate;
         this.notificationQueue = notificationQueue;
     }
+
+    /**
+     * Sends message to notification queue
+     * @param message Message to send
+     */
     public void sendMessageNotificationQueue(final String message) {
         System.out.println("=== Sending message to queue ===");
         rabbitTemplate.convertAndSend(notificationQueue.getName(), message);

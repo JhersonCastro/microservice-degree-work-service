@@ -9,6 +9,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ConsumerConfig {
 
+    /**
+     * Configures RabbitMQ listener container factory
+     * @param connectionFactory RabbitMQ connection factory
+     * @param converter JSON message converter
+     * @return Configured listener container factory
+     */
     @Bean
     public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(
             ConnectionFactory connectionFactory,

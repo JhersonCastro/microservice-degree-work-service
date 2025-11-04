@@ -22,6 +22,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private static final ThreadLocal<Long> currentAccountId = new ThreadLocal<>();
     private static final ThreadLocal<String> currentRoles = new ThreadLocal<>();
 
+    /**
+     * Filters incoming HTTP requests to extract account ID and roles from headers
+     * @param request HTTP servlet request
+     * @param response HTTP servlet response
+     * @param filterChain Filter chain for request processing
+     * @throws ServletException If servlet error occurs
+     * @throws IOException If I/O error occurs
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -35,6 +43,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
             Logger.info(getClass(), "Headers recibidos: X-Account-Id=" + accountIdHeader + ", X-User-Roles=" + rolesHeader);
 
+            // Process account ID header
             if (accountIdHeader != null && !accountIdHeader.isBlank()) {
                 try {
                     Long accountId = Long.parseLong(accountIdHeader);
@@ -44,32 +53,33 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 }
             }
 
+            // Process roles header and set up Spring Security context
             if (rolesHeader != null && !rolesHeader.isBlank()) {
                 currentRoles.set(rolesHeader);
 
-                // Convertir roles a lista de autoridades (Spring exige "ROLE_" como prefijo)
+                // Convert roles to Spring Security authorities (requires "ROLE_" prefix)
                 List<SimpleGrantedAuthority> authorities = Arrays.stream(rolesHeader.split(","))
                         .map(String::trim)
                         .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                         .collect(Collectors.toList());
 
-                // Crear autenticación simulada
+                // Create simulated authentication
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(accountIdHeader, null, authorities);
 
-                // Registrar en el contexto de seguridad
+                // Register in security context
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
                 Logger.info(getClass(), "Usuario autenticado con roles: " + authorities);
             }
 
-            // Continuar el flujo normalmente (pasa al controlador)
+            // Continue normal flow (proceeds to controller)
             filterChain.doFilter(request, response);
 
             Logger.info(getClass(), "El flujo regresó del controlador sin errores.");
 
         } finally {
-            // Limpieza después de procesar la request
+            // Cleanup after processing request
             SecurityContextHolder.clearContext();
             currentAccountId.remove();
             currentRoles.remove();
@@ -77,10 +87,18 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
     }
 
+    /**
+     * Gets current account ID from ThreadLocal storage
+     * @return Current account ID or null if not set
+     */
     public static Long getCurrentAccountId() {
         return currentAccountId.get();
     }
 
+    /**
+     * Gets current user roles from ThreadLocal storage
+     * @return Current roles string or null if not set
+     */
     public static String getCurrentRoles() {
         return currentRoles.get();
     }

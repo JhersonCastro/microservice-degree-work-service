@@ -11,6 +11,9 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Entity representing a degree work
+ */
 @Entity
 @Table(name = "degree_work")
 public class DegreeWork {
@@ -25,7 +28,7 @@ public class DegreeWork {
     @Column(name = "id_director")
     private Long idDirector;
 
-    @Column(name = "id_coordinator")  // ← NUEVO
+    @Column(name = "id_coordinator")
     private Long idCoordinator;
 
     @ElementCollection
@@ -53,10 +56,25 @@ public class DegreeWork {
     @JsonIgnore
     private DegreeWorkState state;
 
-    // Constructores
+    /**
+     * Default constructor
+     */
     public DegreeWork() {
     }
 
+    /**
+     * Constructs DegreeWork with all fields
+     * @param id Degree work ID
+     * @param title Degree work title
+     * @param description Degree work description
+     * @param idDirector Director ID
+     * @param idCoordinator Coordinator ID
+     * @param studentIds Set of student IDs
+     * @param status Current status
+     * @param modality Work modality
+     * @param createdAt Creation timestamp
+     * @param process Current process
+     */
     public DegreeWork(Long id, String title, String description, Long idDirector,
                       Long idCoordinator, Set<Long> studentIds, Status status,
                       Modality modality, LocalDateTime createdAt, Process process) {
@@ -64,7 +82,7 @@ public class DegreeWork {
         this.title = title;
         this.description = description;
         this.idDirector = idDirector;
-        this.idCoordinator = idCoordinator;  // ← NUEVO
+        this.idCoordinator = idCoordinator;
         this.studentIds = studentIds != null ? studentIds : new HashSet<>();
         this.status = status;
         this.modality = modality;
@@ -72,11 +90,18 @@ public class DegreeWork {
         this.process = process;
     }
 
+    /**
+     * Sets creation timestamp before persisting
+     */
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
 
+    /**
+     * Adds student ID to degree work
+     * @param studentId Student identifier
+     */
     public void addStudentId(Long studentId) {
         if (studentId == null) {
             throw new IllegalArgumentException("El ID del estudiante no puede ser nulo.");
@@ -84,12 +109,21 @@ public class DegreeWork {
         studentIds.add(studentId);
     }
 
+    /**
+     * Changes degree work state and updates status/process
+     * @param newState New state to set
+     */
     public void changeState(DegreeWorkState newState) {
         this.state = newState;
         this.status = determineStatusFromState(newState);
         this.process = convertStateToProcess(newState);
     }
 
+    /**
+     * Determines status based on state class
+     * @param state Degree work state
+     * @return Corresponding status
+     */
     private Status determineStatusFromState(DegreeWorkState state) {
         return switch (state.getClass().getSimpleName()) {
             case "DegreeWorkCreated" -> Status.CREATED;
@@ -101,6 +135,11 @@ public class DegreeWork {
         };
     }
 
+    /**
+     * Converts state to process enum
+     * @param state Degree work state
+     * @return Corresponding process
+     */
     private Process convertStateToProcess(DegreeWorkState state) {
         return switch (state.getClass().getSimpleName()) {
             case "DegreeWorkCreated", "DegreeWorkInactive" -> Process.INACTIVO;
@@ -110,7 +149,7 @@ public class DegreeWork {
         };
     }
 
-    // Getters y Setters
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -143,11 +182,11 @@ public class DegreeWork {
         this.idDirector = idDirector;
     }
 
-    public Long getIdCoordinator() {  // ← NUEVO
+    public Long getIdCoordinator() {
         return idCoordinator;
     }
 
-    public void setIdCoordinator(Long idCoordinator) {  // ← NUEVO
+    public void setIdCoordinator(Long idCoordinator) {
         this.idCoordinator = idCoordinator;
     }
 

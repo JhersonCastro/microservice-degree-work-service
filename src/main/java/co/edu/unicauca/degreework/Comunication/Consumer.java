@@ -16,6 +16,10 @@ public class Consumer {
     @Autowired
     private DegreeWorkService degreeWorkService;
 
+    /**
+     * Receives and processes messages from the communication queue
+     * @param comunDTO The DTO containing message data
+     */
     @RabbitListener(queues = {"${comunQueue.name}"})
     public void receive(@Payload ComunDTO comunDTO) {
         System.out.println("=== Message received ===");
@@ -29,6 +33,9 @@ public class Consumer {
         }
     }
 
+    /**
+     * Simulates slow processing for testing purposes
+     */
     private void makeSlow() {
         try {
             Thread.sleep(15000);
@@ -38,6 +45,12 @@ public class Consumer {
         }
     }
 
+    /**
+     * Executes appropriate service method based on command action
+     * @param dwId Degree work ID
+     * @param command Action command to execute
+     * @return Updated DegreeWork entity or null
+     */
     private DegreeWork actionStateComand(Long dwId, String command) {
 
         return switch (command) {
@@ -49,6 +62,5 @@ public class Consumer {
             case "aprove_draft" -> degreeWorkService.aproveDraft(dwId);
             default -> null;
         };
-
     }
 }
