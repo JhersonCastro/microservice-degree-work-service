@@ -7,17 +7,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Manages event listeners and dispatches events to subscribed listeners.
+ * Provides methods to subscribe, unsubscribe, and notify event listeners.
+ */
 @Component
 public class EventManager {
 
     private final Map<String, List<EventListener>> listeners = new HashMap<>();
 
-    // Suscribir un listener a un tipo de evento específico
+    /**
+     * Subscribes a listener to a specific event type.
+     *
+     * @param eventType the type of event to listen for
+     * @param listener  the listener to subscribe
+     */
     public void subscribe(String eventType, EventListener listener) {
         listeners.computeIfAbsent(eventType, k -> new ArrayList<>()).add(listener);
     }
 
-    // Desuscribir un listener de un tipo de evento
+    /**
+     * Unsubscribes a listener from a specific event type.
+     *
+     * @param eventType the type of event to unsubscribe from
+     * @param listener  the listener to remove
+     */
     public void unsubscribe(String eventType, EventListener listener) {
         List<EventListener> users = listeners.get(eventType);
         if (users != null) {
@@ -25,7 +39,12 @@ public class EventManager {
         }
     }
 
-    // Notificar a todos los listeners suscritos a un tipo de evento
+    /**
+     * Notifies all subscribed listeners of the specified event type.
+     *
+     * @param eventType the type of event that occurred
+     * @param data      additional data associated with the event
+     */
     public void notify(String eventType, Object data) {
         List<EventListener> users = listeners.get(eventType);
         if (users != null) {
